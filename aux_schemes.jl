@@ -32,17 +32,17 @@ end
 
 
 function get_nonlinear(vel::Array, dveldx::Array)
-    NLx =   adv(vel[1,:,:], dveldx[1,1,:,:], apad, bpad, aphys, bphys, phys) + 
-            adv(vel[2,:,:], dveldx[1,2,:,:], apad, bpad, aphys, bphys, phys) + 
-            adv(vel[3,:,:], dveldx[1,3,:,:], apad, bpad, aphys, bphys, phys) 
+    NLx =   adv(vel[1,:,:,:], dveldx[1,1,:,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[2,:,:,:], dveldx[1,2,:,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[3,:,:,:], dveldx[1,3,:,:,:], apad, bpad, aphys, bphys, phys) 
 
-    NLy =   adv(vel[1,:,:], dveldx[2,1,:,:], apad, bpad, aphys, bphys, phys) + 
-            adv(vel[2,:,:], dveldx[2,2,:,:], apad, bpad, aphys, bphys, phys) +
-            adv(vel[3,:,:], dveldx[2,3,:,:], apad, bpad, aphys, bphys, phys) 
+    NLy =   adv(vel[1,:,:,:], dveldx[2,1,:,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[2,:,:,:], dveldx[2,2,:,:,:], apad, bpad, aphys, bphys, phys) +
+            adv(vel[3,:,:,:], dveldx[2,3,:,:,:], apad, bpad, aphys, bphys, phys) 
 
-    NLz =   adv(vel[1,:,:], dveldx[3,1,:,:], apad, bpad, aphys, bphys, phys) + 
-            adv(vel[2,:,:], dveldx[3,2,:,:], apad, bpad, aphys, bphys, phys) +
-            adv(vel[3,:,:], dveldx[3,3,:,:], apad, bpad, aphys, bphys, phys) 
+    NLz =   adv(vel[1,:,:,:], dveldx[3,1,:,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[2,:,:,:], dveldx[3,2,:,:,:], apad, bpad, aphys, bphys, phys) +
+            adv(vel[3,:,:,:], dveldx[3,3,:,:,:], apad, bpad, aphys, bphys, phys) 
     NL = np.stack([NLx, NLy, NLz], axis=0)
     return NL
 end

@@ -1,3 +1,26 @@
+using PyPlot; plt = PyPlot
+
+function plot_3axes(A, B, C, name; sym=false)
+    vmin=-1
+    vmax=1
+    A=collect(A)
+    B=collect(B)
+    C=collect(C)
+    fig, axes = plt.subplots(ncols=3, figsize=(15,5))
+    ax=axes[1]
+    ma=ax[:pcolormesh](A.', vmin=vmin, vmax=vmax)
+    plt.colorbar(ma, ax=ax)
+    ax=axes[2]
+    ma=ax[:pcolormesh](B.', vmin=vmin, vmax=vmax)
+    plt.colorbar(ma, ax=ax)
+    ax=axes[3]
+    ma=ax[:pcolormesh](C.', vmin=vmin, vmax=vmax)
+    plt.colorbar(ma, ax=ax)
+    fig[:tight_layout]()
+    fig[:savefig](name)
+    plt.close("all")
+end 
+
 
 function plot_2axes(A, B, name; sym=false)
     vmin=-1
