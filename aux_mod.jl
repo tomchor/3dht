@@ -23,15 +23,16 @@ function check_CFL(uh::Array; dx=1, dy=1, dt=1, norm=[1,1], reset=false)
             rm("output/ke.csv")
         end
     end
-    u, v = abs.(irplan*uh)
+    u, v, w = abs.(irplan*uh)
     CFLx = dt*maximum(u)/dx
     CFLy = dt*maximum(v)/dy
-    kea = sum(abs.(uh.^2))*dx*dy
-    println("KE, CFL = ", kea/norm[1], ", ", (CFLx+CFLy)/norm[2])
+    CFLz = dt*maximum(w)/dz
+    kea = sum(u.^2 + v.^2 + w.^2)*dx*dy*dz/2
+    println("KE, CFL = ", kea/norm[1], ", ", (CFLx+CFLy+CFLz)/norm[2])
     open("output/ke.csv", "a") do f
         write(f, kea/norm[1])
     end
-    return kea, CFLx + CFLy
+    return kea, CFLx + CFLy + CFLz
 end
 
 

@@ -7,13 +7,14 @@ Nprocs = nprocs()
 #------
 # Domain setup and and IC
 L=1 # m
-N=2^5
+N=2^6
 ν=1.5e-5 # m^2/s
 #ν=0.0
 #------
+
 #------
 # Time setup
-dt = .0002
+dt = .0005
 T_f = 5.
 out_T = 0:.1:T_f
 Nt = trunc(Int,T_f/dt)

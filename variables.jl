@@ -38,14 +38,18 @@ kykz_k2[1,1] = 0
 #-----
 
 #-----
-U = zeros(4, Ndim, Nx, Ny, Nz)
-DR = xr.DataArray(U[1,1,:,:,:], dims=("x", "y", "z"), coords=Dict("x" => x_center, "y" => y_center, "z" => z_center))
+U = zeros(Ndim, Nx, Ny, Nz)
+dUhdx = Array{Complex{Float64}}(3, 3, Int(Nx//2+1), Ny, Nz)
+coords=("x", "y", "z")
+DS = xr.Dataset(Dict("U"=>(coords, U[1,:,:,:]), "V"=>(coords, U[2,:,:,:]), "W"=>(coords, U[3,:,:,:])),
+    coords=Dict("x" => x_center, "y" => y_center, "z" => z_center))
 #-----
 
 
 #-----
 # Aux variable to enforce non-compressibility in NL term
 NL_aux = Array{Complex{Float64}}(Ndim, length(kx), length(ky), length(kz))
+NL_aux2 = Array{Complex{Float64}}(Ndim, length(kx), length(ky), length(kz))
 #-----
 
 #-----

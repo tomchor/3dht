@@ -7,6 +7,7 @@ function plot_3axes(A, B, C, name; sym=false)
     B=collect(B)
     C=collect(C)
     fig, axes = plt.subplots(ncols=3, figsize=(15,5))
+    #ds["U"][:isel](y=1)[:plot](ax=axes[1])
     ax=axes[1]
     ma=ax[:pcolormesh](A.', vmin=vmin, vmax=vmax)
     plt.colorbar(ma, ax=ax)

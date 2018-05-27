@@ -25,6 +25,7 @@ U0[3,:,:,:] = w0
 #----
 # Add noise
 U0+=randn(size(U0))*rms
+DS["U"][:values]=U0[1,:,:,:]; DS["V"][:values]=U0[2,:,:,:]; DS["W"][:values]=U0[3,:,:,:];
 #----
 
 #------
