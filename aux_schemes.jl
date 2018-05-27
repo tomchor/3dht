@@ -1,5 +1,6 @@
 
-function advance_AB3_2D(Uh::Array, NL::Array; dt::Float64=1)
+
+function advance_AB3_3D(Uh::Array, NL::Array; dt::Float64=1)
     #------
     # Calculate derivatives [1,2,:,:] is y-deriv of u-component
     dUhdx = np.stack([Kx.*im.*Uh[end,:,:,:], Ky.*im.*Uh[end,:,:,:]], axis=1)
@@ -31,12 +32,18 @@ end
 
 
 function get_nonlinear(vel::Array, dveldx::Array)
-    #              U             dUdx                    V                dUdy
-    #vel = rplan*ones(U0) # This was used for debugging
-    NLx = adv(vel[1,:,:], dveldx[1,1,:,:], apad, bpad) + adv(vel[2,:,:], dveldx[1,2,:,:], apad, bpad) 
-    #              U             dVdx                    V                dVdy
-    NLy = adv(vel[1,:,:], dveldx[2,1,:,:], apad, bpad) + adv(vel[2,:,:], dveldx[2,2,:,:], apad, bpad) 
-    NL = np.stack([NLx, NLy], axis=0)
+    NLx =   adv(vel[1,:,:], dveldx[1,1,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[2,:,:], dveldx[1,2,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[3,:,:], dveldx[1,3,:,:], apad, bpad, aphys, bphys, phys) 
+
+    NLy =   adv(vel[1,:,:], dveldx[2,1,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[2,:,:], dveldx[2,2,:,:], apad, bpad, aphys, bphys, phys) +
+            adv(vel[3,:,:], dveldx[2,3,:,:], apad, bpad, aphys, bphys, phys) 
+
+    NLz =   adv(vel[1,:,:], dveldx[3,1,:,:], apad, bpad, aphys, bphys, phys) + 
+            adv(vel[2,:,:], dveldx[3,2,:,:], apad, bpad, aphys, bphys, phys) +
+            adv(vel[3,:,:], dveldx[3,3,:,:], apad, bpad, aphys, bphys, phys) 
+    NL = np.stack([NLx, NLy, NLz], axis=0)
     return NL
 end
 

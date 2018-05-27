@@ -1,14 +1,13 @@
 #------
 # General
-Ndim = 2
+const Ndim = 3
 Nprocs = nprocs()
-plot = true
 #------
 
 #------
 # Domain setup and and IC
 L=1 # m
-N=2^8
+N=2^5
 ν=1.5e-5 # m^2/s
 #ν=0.0
 #------

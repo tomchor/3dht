@@ -17,14 +17,17 @@ end
 
 function check_CFL(uh::Array; dx=1, dy=1, dt=1, norm=[1,1], reset=false)
     if reset==true
-        rm("ke.csv")
+	println(reset)
+        try
+            rm("output/ke.csv")
+        end
     end
     u, v = abs.(irplan*uh)
     CFLx = dt*maximum(u)/dx
     CFLy = dt*maximum(v)/dy
     kea = sum(abs.(uh.^2))*dx*dy
     println("KE, CFL = ", kea/norm[1], ", ", (CFLx+CFLy)/norm[2])
-    open("ke.csv", "a") do f
+    open("output/ke.csv", "a") do f
         write(f, kea/norm[1])
     end
     return kea, CFLx + CFLy

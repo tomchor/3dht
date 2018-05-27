@@ -29,7 +29,7 @@ else
 end
 
 
-function adv2(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phys::Array, phys::Array)
+function adv(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phys::Array, phys::Array)
     """
     a and b should be in Fourier space
     """
@@ -44,8 +44,6 @@ function adv2(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phy
     halfy = Int(Ny//2)-1
     a = fftshift(a, 2)
     b = fftshift(b, 2)
-    #apad[1:Int(Nx//2), Int(end//2)+1-halfy:Int(end//2)+1+halfy] = 
-    #a[1:Int(Nx//2), Int(end//2)+1-halfy:Int(end//2)+1+halfy]
     apad[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy] = a[:,:]
     bpad[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy] = b[:,:]
     apad = fftshift(apad, 2)
@@ -54,8 +52,6 @@ function adv2(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phy
 
     #----
     # Transform to physical space, renormalize, multiply, and transform back
-#    a_phys = ipadplan*apad
-#    b_phys = ipadplan*bpad
     A_mul_B!(a_phys, ipadplan, apad)
     A_mul_B!(b_phys, ipadplan, bpad)
     a_phys .*= (size(a_phys)[1]-1)/Nx
@@ -63,52 +59,7 @@ function adv2(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phy
 
     phys = a_phys.*b_phys
     A_mul_B!(apad, padplan, phys)
-#    G = padplan*phys
-    G = apad
-    g=fftshift(G, 2)[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy]
-    g=fftshift(g, 2)
-    #----
-
-    #----
-    # Return only the wavenumbers that interest us
-    return g
-    #----
-end
-
-function adv(a::Array, b::Array, apad::Array, bpad::Array)
-    """
-    a and b should be in Fourier space
-    """
-    #----
-    # Create padded arrays with 3/2 times the original size and all zeros
-#    apad = Array{Complex{Float64}}(Int(ceil(size(a)[1]*3/2)), Int(ceil(size(a)[2]*3/2)))
-#    bpad = Array{Complex{Float64}}(Int(ceil(size(b)[1]*3/2)), Int(ceil(size(b)[2]*3/2)))
-    apad[:,:] = 0+0*im
-    bpad[:,:] = 0+0*im
-    #----
-
-    #----
-    # Fill in the amplitudes that we care about
-    halfy = Int(Ny//2)-1
-    a = fftshift(a, 2)
-    b = fftshift(b, 2)
-    #apad[1:Int(Nx//2), Int(end//2)+1-halfy:Int(end//2)+1+halfy] = 
-    #a[1:Int(Nx//2), Int(end//2)+1-halfy:Int(end//2)+1+halfy]
-    apad[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy] = a[:,:]
-    bpad[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy] = b[:,:]
-    apad = fftshift(apad, 2)
-    bpad = fftshift(bpad, 2)
-    #----
-
-    #----
-    # Transform to physical space, renormalize, multiply, and transform back
-    a_phys = ipadplan*apad
-    b_phys = ipadplan*bpad
-    a_phys *= (size(a_phys)[1]-1)/Nx
-    b_phys *= (size(b_phys)[1]-1)/Nx
-
-    G = padplan*(a_phys.*b_phys)
-    g=fftshift(G, 2)[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy]
+    g=fftshift(apad, 2)[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy]
     g=fftshift(g, 2)
     #----
 

@@ -1,33 +1,33 @@
 import PyCall
 @PyCall.pyimport numpy as np
+@PyCall.pyimport xarray as xr
 
 include("param.jl")
 include("aux_schemes.jl")
 
-if plot
-    import PyPlot; const plt = PyPlot
-    plt.ioff()
-    include("plot.jl")
-end
-
 println("N = $N")
 Nx=N
 Ny=N
+Nz=N
 Lx=L
 Ly=L
+Lz=L
 
 #------
 # Define grid
 dx = Lx/Nx;
 dy = Ly/Ny;
+dz = Lz/Nz;
 x_center = linspace(dx/2, Lx-dx/2, Nx)
 y_center = linspace(dy/2, Ly-dy/2, Ny)
-println("von Neumann: ", ν*dt*(dx^(-2) + dy^(-2)))
+z_center = linspace(dz/2, Lz-dz/2, Nz)
+println("von Neumann: ", ν*dt*(dx^(-2) + dy^(-2) + dz^(-2)))
 #------
 
 #------
 # Include FFT functions
 include("variables.jl")
+break
 include("fft_mod.jl")
 #------
 
