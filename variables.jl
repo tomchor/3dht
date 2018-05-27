@@ -38,13 +38,19 @@ kykz_k2[1,1] = 0
 #-----
 
 #-----
+U = zeros(4, Ndim, Nx, Ny, Nz)
+DR = xr.DataArray(U[1,1,:,:,:], dims=("x", "y", "z"), coords=Dict("x" => x_center, "y" => y_center, "z" => z_center))
+#-----
+
+
+#-----
 # Aux variable to enforce non-compressibility in NL term
 NL_aux = Array{Complex{Float64}}(Ndim, length(kx), length(ky), length(kz))
 #-----
 
 #-----
 # Define auxiliary padded arrays for de-alising
-apad = Array{Complex{Float64}}(Int(ceil(size(kx)[1]*3/2)), Int(ceil(size(ky)[1]*3/2)), Int(ceil(size(ky)[1]*3/2)))
+apad = Array{Complex{Float64}}(Int(ceil(size(kx)[1]*3/2)), Int(ceil(size(ky)[1]*3/2)), Int(ceil(size(kz)[1]*3/2)))
 bpad = similar(apad)
 phys = Array{Float64}(Int(Nx*3//2+2), Int(Nx*3//2), Int(Nx*3//2))
 aphys = similar(phys)

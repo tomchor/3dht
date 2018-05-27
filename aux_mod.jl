@@ -6,10 +6,11 @@ function zonal_jet(x::Float64; wid::Float64=.25, center::Float64=.5, a::Float64=
 end
 
 
-function gaussian(x, y; x0=.5, y0=.5, a=.25, H=1)
+function gaussian(x, y, z; x0=.5, y0=.5, z0=.5, a=.25, H=1)
     x=x-x0
     y=y-y0
-    arg = (x^2 + y^2)/a^2
+    z=z-z0
+    arg = (x^2 + y^2, + z^2)/a^2
     return H*exp(-arg)
 end
 
@@ -35,17 +36,18 @@ end
 
 
 function rm_div(uh::Array)
-    NL_aux[1,:,:] = (1 - kxkx_k2).*uh[1,:,:] - kxky_k2.*uh[2,:,:]
-    NL_aux[2,:,:] = - kxky_k2.*uh[1,:,:] + (1 - kyky_k2).*uh[2,:,:]
+    NL_aux[1,:,:,:] = + (1 - kxkx_k2).*uh[1,:,:,:] - kxky_k2.*uh[2,:,:,:] - kxkz_k2.*uh[3,:,:,:]
+    NL_aux[2,:,:,:] = - kxky_k2.*uh[1,:,:,:] + (1 - kyky_k2).*uh[2,:,:,:] - kykz_k2.*uh[3,:,:,:]
+    NL_aux[3,:,:,:] = - kxkz_k2.*uh[1,:,:,:] - kykz_k2.*uh[2,:,:,:] + (1 - kzkz_k2).*uh[3,:,:,:]
     return NL_aux
 end
 
 
-function vort(uh::Array)
+function vort_z(uh::Array)
     return irfft(im*(Kx[1,:,:].*uh[2,:,:] - Ky[1,:,:].*uh[1,:,:]), Nx)
 end
 
 function ∇(uh::Array)
-    return abs.(im*(Kx[1,:,:].*uh[1,:,:] + Ky[1,:,:].*uh[2,:,:]))
+    return abs.(im*(Kx[1,:,:,:].*uh[1,:,:,:] + Ky[1,:,:,:].*uh[2,:,:,:] + Kz[1,:,:,:].*uh[3,:,:,:]))
 end
 

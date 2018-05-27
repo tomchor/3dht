@@ -27,14 +27,13 @@ println("von Neumann: ", ν*dt*(dx^(-2) + dy^(-2) + dz^(-2)))
 #------
 # Include FFT functions
 include("variables.jl")
-break
 include("fft_mod.jl")
 #------
 
 #------
 # IC
-U = zeros(4, Ndim, Nx, Ny)
 include("IC.jl")
+break
 #------
 
 #------
