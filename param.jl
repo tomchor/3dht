@@ -7,7 +7,7 @@ Nprocs = nprocs()
 #------
 # Domain setup and and IC
 L_dim=0.05 # m
-N=2^6
+N=2^7
 ν_dim=1.5e-5 # m^2/s
 #------
 
