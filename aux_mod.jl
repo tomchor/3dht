@@ -28,7 +28,7 @@ function check_CFL(uh::Array; dx=1, dy=1, dt=1, norm=[1,1], reset=false)
     CFLy = dt*maximum(v)/dy
     CFLz = dt*maximum(w)/dz
     kea = sum(u.^2 + v.^2 + w.^2)*dx*dy*dz/2
-    println("KE, CFL = ", kea/norm[1], ", ", (CFLx+CFLy+CFLz)/norm[2])
+    println("MAX(∇⋅u), KE, CFL = ", maximum(abs.(∇(uh))),", ", kea/norm[1], ", ", (CFLx+CFLy+CFLz)/norm[2])
     open("output/ke.csv", "a") do f
         write(f, kea/norm[1])
     end

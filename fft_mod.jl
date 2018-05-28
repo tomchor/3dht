@@ -37,10 +37,11 @@ function adv(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phys
     #----
     # Fill in the amplitudes that we care about
     halfy = Int(Ny//2)-1
+    half2 = round(Int, Ny*3//4)
     a = fftshift(a, (2,3))
     b = fftshift(b, (2,3))
-    apad[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy, Int(end//2)-halfy:Int(end//2)+1+halfy] = a[:,:,:]
-    bpad[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy, Int(end//2)-halfy:Int(end//2)+1+halfy] = b[:,:,:]
+    apad[1:Int(Nx//2)+1, half2-halfy:half2+1+halfy, half2-halfy:half2+1+halfy] = a[:,:,:]
+    bpad[1:Int(Nx//2)+1, half2-halfy:half2+1+halfy, half2-halfy:half2+1+halfy] = b[:,:,:]
     apad = fftshift(apad, (2,3))
     bpad = fftshift(bpad, (2,3))
     #----
@@ -54,7 +55,7 @@ function adv(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phys
 
     phys = a_phys.*b_phys
     A_mul_B!(apad, padplan, phys)
-    g=fftshift(apad, (2,3))[1:Int(Nx//2)+1, Int(end//2)-halfy:Int(end//2)+1+halfy, Int(end//2)-halfy:Int(end//2)+1+halfy]
+    g=fftshift(apad, (2,3))[1:Int(Nx//2)+1, half2-halfy:half2+1+halfy, half2-halfy:half2+1+halfy]
     g=fftshift(g, (2,3))
     #----
 

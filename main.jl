@@ -46,7 +46,7 @@ function run_sim(Uh, NL)
     #-----
     # Print IC
 #    plot_1axis(vort(Uh0), join(["output/zeta_",@sprintf("%06.02f", 0),".png"]), vm=100)
-    plot_3axes(U0[1,:,1,:], U0[2,:,1,:], U0[3,:,1,:], join(["output/uvw_",@sprintf("%06.02f", 0),".png"]), sym=true)
+    plot_3axes(U0[1,:,1,:], U0[2,:,1,:], U0[3,:,1,:], join(["output/uvw_",@sprintf("%06.02f", 0),".png"]), sym=true, vm=.4)
     #-----
 
     println("Starting loop ...")
@@ -58,13 +58,14 @@ function run_sim(Uh, NL)
         println("jt_tot ", jt_tot, " time= ", t)
 
         Uh, NL = advance_AB3_3D(Uh, NL, dt=dt)
+        Uh[end,:,:,:,:] = rm_div(Uh[end,:,:,:,:])
 
         if jt_tot in out_n
             A_mul_B!(U, irplan, Uh[end,:,:,:,:])
 #            plot_1axis(vort(Uh[end,:,:,:]), join(["output/zeta_",@sprintf("%06.02f", out_T[n]),".png"]), vm=100)
             DS["U"][:values]=U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
             DS[:to_netcdf](join(["output/uvw_",@sprintf("%06.02f", out_T[n]),".nc"]))
-            plot_3axes(U[1,:,1,:], U[2,:,1,:], U[3,:,1,:], join(["output/uvw_",@sprintf("%06.02f", out_T[n]),".png"]), sym=true)
+            plot_3axes(U[1,:,1,:], U[2,:,1,:], U[3,:,1,:], join(["output/uvw_",@sprintf("%06.02f", out_T[n]),".png"]), sym=true, vm=.4)
             n=n+1
         end
 

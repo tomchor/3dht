@@ -1,8 +1,8 @@
 using PyPlot; plt = PyPlot
 
-function plot_3axes(A, B, C, name; sym=false)
-    vmin=-1
-    vmax=1
+function plot_3axes(A, B, C, name; sym=false, vm=1)
+    vmin=-vm
+    vmax=vm
     A=collect(A)
     B=collect(B)
     C=collect(C)
