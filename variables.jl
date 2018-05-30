@@ -45,6 +45,8 @@ dUhdx = Array{Complex{Float64}}(3, 3, Int(Nx//2+1), Ny, Nz)
 coords=("x", "y", "z")
 DS = xr.Dataset(Dict("U"=>(coords, U[1,:,:,:]), "V"=>(coords, U[2,:,:,:]), "W"=>(coords, U[3,:,:,:])),
     coords=Dict("x" => x_center, "y" => y_center, "z" => z_center))
+DSf = xr.Dataset(Dict("Uh"=>(coords, Uh[1,:,:,:]), "Vh"=>(coords, Uh[2,:,:,:]), "Wh"=>(coords, Uh[3,:,:,:])),
+    coords=Dict("kx" => kx, "ky" => ky, "kz" => kz))
 #-----
 
 

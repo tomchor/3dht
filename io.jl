@@ -53,3 +53,10 @@ function plot_1axis(A, name; vm=1)
 end 
 
 
+function write_netcdfs(n)
+    DS["U"][:values]=U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
+    (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",@sprintf("%06.0f", 1e2*out_T[n]),".nc"]))
+    DSf["Uh"][:values]=Uh[end,1,:,:,:]; DSf["Vh"][:values]=Uh[end,2,:,:,:]; DSf["Wh"][:values]=Uh[end,3,:,:,:];
+    (DSf*U_scale)[:transpose]()[:to_netcdf](join(["output/uvwh_",@sprintf("%06.0f", 1e2*out_T[n]),".nc"]))
+end
+

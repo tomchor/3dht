@@ -6,12 +6,8 @@ include("param.jl")
 include("aux_schemes.jl")
 
 println("N = $N")
-Nx=N
-Ny=N
-Nz=N
-Lx=L
-Ly=L
-Lz=L
+Nx=Ny=Nz=N
+Lx=Ly=Lz=L
 
 #------
 # Define grid
@@ -41,7 +37,7 @@ include("init_calc.jl")
 #------
 
 KE0, CFL0 = check_CFL(Uh[end,:,:,:,:], dx=dx, dy=dy, norm=[1, 1], dt=dt, reset=true);
-include("plot.jl")
+include("io.jl")
 function run_sim(Uh, NL)
     #-----
     # Print IC
@@ -62,7 +58,8 @@ function run_sim(Uh, NL)
         if jt_tot in out_n
             A_mul_B!(U, irplan, Uh[end,:,:,:,:])
             DS["U"][:values]=U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
-            (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",@sprintf("%06.02f", out_T[n]),".nc"]))
+            (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",@sprintf("%06.0f", 1e2out_T[n]),".nc"]))
+#            write_netcdfs(n)
             plot_3axes(U[1,:,Int(end//2),:], U[2,:,Int(end//2),:], U[3,:,1,:], join(["output/uvw_",@sprintf("%06.02f", out_T[n]),".png"]), sym=true, vm=.4)
             n=n+1
         end
