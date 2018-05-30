@@ -15,8 +15,8 @@ function advance_AB3_3D(Uh::Array, NL::Array; dt::Float64=1)
     NL_aux[2,:,:,:] =     - kxky_k2.*NL[end,1,:,:,:] + (1 - kyky_k2).*NL[end,2,:,:,:]       - kykz_k2.*NL[end,3,:,:,:]
     NL_aux[3,:,:,:] =     - kxkz_k2.*NL[end,1,:,:,:]       - kykz_k2.*NL[end,2,:,:,:] + (1 - kzkz_k2).*NL[end,3,:,:,:]
     NL[end,:,:,:,:] = NL_aux
-    KE = sum(f_k.*Uh.*conj(Uh))*(dkx^Ndim)/2
-    Q = sum(AB3_coeffs.*(NL .+ Prod*f_k.*Uh/(2*KE)), 1)[1,:,:,:,:]
+    KE = Cf*sum(f_k.*Uh.*conj(Uh), (2,3,4,5))*(dkx^Ndim)/(N^6)
+    Q = sum(AB3_coeffs.*(NL .+ Prod*f_k.*Uh./(2*KE)), 1)[1,:,:,:,:]
     #------
 
     #----
