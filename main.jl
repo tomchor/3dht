@@ -57,7 +57,7 @@ function run_sim(Uh, NL)
         println("jt_tot ", jt_tot, " time= ", t)
 
         Uh, NL = advance_AB3_3D(Uh, NL, dt=dt)
-        Uh[end,:,:,:,:] = rm_div(Uh[end,:,:,:,:])
+        #Uh[end,:,:,:,:] = rm_div(Uh[end,:,:,:,:])
 
         if jt_tot in out_n
             A_mul_B!(U, irplan, Uh[end,:,:,:,:])

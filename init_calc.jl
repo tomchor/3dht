@@ -5,7 +5,7 @@ dUh0dx = np.stack([Kx.*im.*Uh0, Ky.*im.*Uh0, Kz.*im.*Uh0], axis=1)
 
 #------
 # Calculate nonliner term
-NL = -get_nonlinear(Uh0, dUh0dx)
+NL = - get_nonlinear(Uh0, dUh0dx)
 #------
 
 #------
@@ -29,5 +29,13 @@ NL = np.roll(NL, -1, axis=0)
 #----
 # Calculate current time based on last
 Uh[end,:,:,:,:] = E.^(-1).*Uh[end-1,:,:,:,:] + dt*Q
+#----
+
+#----
+# Remove divergence of velocity and NL term so that we start calculations fresh
+Uh[end,:,:,:,:] = rm_div(Uh[end,:,:,:,:])
+NL[end,:,:,:,:] = rm_div(NL[end,:,:,:,:])
+NL[2,:,:,:,:] = rm_div(NL[2,:,:,:,:])
+NL[1,:,:,:,:] = rm_div(NL[1,:,:,:,:])
 #----
 
