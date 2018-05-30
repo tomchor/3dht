@@ -52,3 +52,7 @@ function ∇(uh::Array)
     return abs.(im*(Kx[1,:,:,:].*uh[1,:,:,:] + Ky[1,:,:,:].*uh[2,:,:,:] + Kz[1,:,:,:].*uh[3,:,:,:]))
 end
 
+function heaviside(t)
+   0.5 * (sign(t) + 1)
+end
+

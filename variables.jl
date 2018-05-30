@@ -1,5 +1,6 @@
 #-----
 # Start definitions and allocations
+include("aux_mod.jl")
 #-----
 
 #-----
@@ -7,6 +8,7 @@
 kx = 2*π*np.fft[:rfftfreq](Nx, d=dx)
 ky = 2*π*np.fft[:fftfreq](Ny, d=dx)
 kz = 2*π*np.fft[:fftfreq](Nz, d=dx)
+dkx=diff(kx)[1]
 #-----
 
 #-----
@@ -51,6 +53,14 @@ DS = xr.Dataset(Dict("U"=>(coords, U[1,:,:,:]), "V"=>(coords, U[2,:,:,:]), "W"=>
 NL_aux = Array{Complex{Float64}}(Ndim, length(kx), length(ky), length(kz))
 NL_aux2 = Array{Complex{Float64}}(Ndim, length(kx), length(ky), length(kz))
 #-----
+
+
+#----
+# Calculate production term
+f_k = np.stack([ (1- heaviside.(K-k_peak)) for i in 1:3 ], axis=0)
+#f_k*= Prod/(2*k_peak)
+#-----
+
 
 #-----
 # Define auxiliary padded arrays for de-alising
