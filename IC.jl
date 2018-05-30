@@ -18,6 +18,7 @@ elseif IC=="iso"
     a = (2*π)/(0.8*L)
     arg = -2*K.^2/a^2
     Uh0[:,:,:,:] = (U_dim/(2*π)).*(K.^4).*exp.(arg)/U_scale
+    U0 = irfft(Uh0, Nx, (2,3,4))
 else
     println("IC not coded")
 end
@@ -26,10 +27,8 @@ if IC=="jet" || IC=="blob" || IC=="sine"
     U0[1,:,:,:] = u0
     U0[2,:,:,:] = v0
     U0[3,:,:,:] = w0
-    U0*=U_dim/U_scale
-else
-    U0 = irfft(Uh0, Nx, (2,3,4))
 end
+U0*=U_dim/((maximum(U0) - minimum(U0))*U_scale)
 
 #----
 # Add noise

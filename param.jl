@@ -6,9 +6,9 @@ Nprocs = nprocs()
 
 #------
 # Domain setup and and IC
-U_dim=10.0 # m/s
+U_dim=.5 # m/s
 L_dim=0.05 # m
-N=2^6
+N=2^5
 ν_dim=1.5e-5 # m^2/s
 #------
 
@@ -30,7 +30,7 @@ T_f = 5.
 out_T = 0:dt_out:T_f
 Nt = trunc(Int,T_f/dt)
 out_n = trunc.(Int,out_T./dt)
-rms=0.01
+rms=0.001
 #------
 
 IC="iso"
