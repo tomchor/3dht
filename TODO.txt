@@ -1,0 +1,4 @@
+- Remove forcing from zero-th wavenumber
+- try to run it without dealising and see if there's a difference
+- Maybe turn it into homogeneous shear code
+

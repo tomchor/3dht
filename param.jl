@@ -8,9 +8,9 @@ Nprocs = nprocs()
 # Domain setup and and IC
 U_dim=.005 # m/s
 L_dim=0.05 # m
-N=2^6
+N=2^5
 ν_dim=1.5e-5 # m^2/s
-Prod_dim = .5e-3 # m^2/s^3
+Prod_dim = .1e-3 # m^2/s^3
 #------
 
 #------
