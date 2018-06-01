@@ -28,7 +28,7 @@ k_peak = (2*π)/(0.8*L) # ~ From Pope
 #------
 # Time setup
 dt = .001
-dt_out = 0.05
+dt_out = 0.1
 T_f = 50.
 out_T = 0:dt_out:T_f
 Nt = trunc(Int,T_f/dt)

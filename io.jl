@@ -1,4 +1,5 @@
 using PyPlot; plt = PyPlot
+plt.ioff()
 
 function plot_3axes(A, B, C, name; sym=false, vm=1)
     vmin=-vm

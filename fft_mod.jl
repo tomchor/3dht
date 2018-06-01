@@ -78,7 +78,6 @@ function adv_aliased(a::Array, b::Array)
     """
     a and b should be in Fourier space
     """
-
     #----
     # Transform to physical space, renormalize, multiply, and transform back
     a_phys = irplan1*a

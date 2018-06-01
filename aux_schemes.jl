@@ -11,6 +11,7 @@ function advance_AB3_3D(Uh::Array, NL::Array; dt::Float64=1)
     #------
     # Get nonlinear term and calculate increment
     NL[end,:,:,:,:] = -get_nonlinear(Uh[end,:,:,:,:], dUhdx) # Improve this
+    #NL[end,:,:,:,:] = -get_nonlinear_aliased(Uh[end,:,:,:,:], dUhdx) # Improve this
     NL_aux[1,:,:,:] = (1 - kxkx_k2).*NL[end,1,:,:,:] -       kxky_k2.*NL[end,2,:,:,:]       - kxkz_k2.*NL[end,3,:,:,:]
     NL_aux[2,:,:,:] =     - kxky_k2.*NL[end,1,:,:,:] + (1 - kyky_k2).*NL[end,2,:,:,:]       - kykz_k2.*NL[end,3,:,:,:]
     NL_aux[3,:,:,:] =     - kxkz_k2.*NL[end,1,:,:,:]       - kykz_k2.*NL[end,2,:,:,:] + (1 - kzkz_k2).*NL[end,3,:,:,:]
@@ -47,6 +48,21 @@ function get_nonlinear(vel::Array, dveldx::Array)
     NL_aux2[3,:,:,:] =  adv(vel[1,:,:,:], dveldx[3,1,:,:,:], apad, bpad, aphys, bphys, phys) + 
                         adv(vel[2,:,:,:], dveldx[3,2,:,:,:], apad, bpad, aphys, bphys, phys) +
                         adv(vel[3,:,:,:], dveldx[3,3,:,:,:], apad, bpad, aphys, bphys, phys) 
+    return NL_aux2
+end
+
+function get_nonlinear_aliased(vel::Array, dveldx::Array)
+    NL_aux2[1,:,:,:] =  adv_aliased(vel[1,:,:,:], dveldx[1,1,:,:,:]) + 
+                        adv_aliased(vel[2,:,:,:], dveldx[1,2,:,:,:]) + 
+                        adv_aliased(vel[3,:,:,:], dveldx[1,3,:,:,:]) 
+
+    NL_aux2[2,:,:,:] =  adv_aliased(vel[1,:,:,:], dveldx[2,1,:,:,:]) + 
+                        adv_aliased(vel[2,:,:,:], dveldx[2,2,:,:,:]) +
+                        adv_aliased(vel[3,:,:,:], dveldx[2,3,:,:,:]) 
+
+    NL_aux2[3,:,:,:] =  adv_aliased(vel[1,:,:,:], dveldx[3,1,:,:,:]) + 
+                        adv_aliased(vel[2,:,:,:], dveldx[3,2,:,:,:]) +
+                        adv_aliased(vel[3,:,:,:], dveldx[3,3,:,:,:]) 
     return NL_aux2
 end
 

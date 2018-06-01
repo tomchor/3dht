@@ -60,7 +60,7 @@ NL_aux2 = Array{Complex{Float64}}(Ndim, length(kx), length(ky), length(kz))
 #----
 # Calculate production term
 f_k = np.stack([ (1- heaviside.(K-k_peak)) for i in 1:3 ], axis=0)
-#f_k*= Prod/(2*k_peak)
+f_k[:,1,1,1] = 0.0
 #-----
 
 
