@@ -21,6 +21,7 @@ function check_CFL(uh::Array; dx=1, dy=1, dt=1, norm=[1,1], reset=false)
 	println(reset)
         try
             rm("output/ke.csv")
+        catch
         end
     end
     u, v, w = abs.(irplan*uh)

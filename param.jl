@@ -1,7 +1,9 @@
+import Distributed
+
 #------
 # General
 const Ndim = 3
-Nprocs = nprocs()
+Nprocs = Distributed.nprocs()
 #------
 
 #------

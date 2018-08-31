@@ -14,9 +14,9 @@ Lx=Ly=Lz=L
 dx = Lx/Nx;
 dy = Ly/Ny;
 dz = Lz/Nz;
-x_center = linspace(dx/2, Lx-dx/2, Nx)
-y_center = linspace(dy/2, Ly-dy/2, Ny)
-z_center = linspace(dz/2, Lz-dz/2, Nz)
+x_center = range(dx/2, stop=Lx-dx/2, step=dx)
+y_center = range(dy/2, stop=Ly-dy/2, step=dy)
+z_center = range(dz/2, stop=Lz-dz/2, step=dz)
 println("von Neumann: ", ν*dt*(dx^(-2) + dy^(-2) + dz^(-2)))
 #------
 
