@@ -3,26 +3,25 @@ FFTW.set_num_threads(Nprocs)
 
 #-----
 # Set forward fft
-U0 = Array{Float64}(Ndim, Nx, Ny, Nz)
-rplan = plan_rfft(U0, (2,3,4), flags=FFTW.MEASURE);
-rplan1 = plan_rfft(U0[1,:,:,:], (1,2,3), flags=FFTW.MEASURE);
+U0 = Array{Float64}(undef, Ndim, Nx, Ny, Nz)
+rplan = FFTW.plan_rfft(U0, (2,3,4), flags=FFTW.MEASURE);
+rplan1 = FFTW.plan_rfft(U0[1,:,:,:], (1,2,3), flags=FFTW.MEASURE);
 #-----
 
 #-----
 # Set inverse FFT
 Uh0 = rplan*U0
-irplan = plan_irfft(Uh0, Nx, (2,3,4), flags=FFTW.MEASURE);
-irplan1 = plan_irfft(Uh0[1,:,:,:], Nx, (1,2,3), flags=FFTW.MEASURE);
+irplan = FFTW.plan_irfft(Uh0, Nx, (2,3,4), flags=FFTW.MEASURE);
+irplan1 = FFTW.plan_irfft(Uh0[1,:,:,:], Nx, (1,2,3), flags=FFTW.MEASURE);
 #-----
 
 #-----
 # Create plan for padded arrays
-Uh_p = Array{Complex{Float64}}(Int(ceil(size(Uh0)[2]*3/2)), Int(ceil(size(Uh0)[3]*3/2)), Int(ceil(size(Uh0)[4]*3/2)))
-ipadplan = plan_irfft(Uh_p, Int(Nx*3//2+2), (1,2,3), flags=FFTW.MEASURE);
+Uh_p = Array{Complex{Float64}}(undef, Int(ceil(size(Uh0)[2]*3/2)), Int(ceil(size(Uh0)[3]*3/2)), Int(ceil(size(Uh0)[4]*3/2)))
+ipadplan = FFTW.plan_irfft(Uh_p, Int(Nx*3//2+2), (1,2,3), flags=FFTW.MEASURE);
 U_p = ipadplan*Uh_p
-padplan = plan_rfft(U_p, (1,2,3), flags=FFTW.MEASURE);
+padplan = FFTW.plan_rfft(U_p, (1,2,3), flags=FFTW.MEASURE);
 #-----
-
 
 function adv(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phys::Array, phys::Array)
     """

@@ -2,7 +2,6 @@ include("aux_mod.jl")
 
 U0 = zeros(Ndim, Nx, Ny, Nz)
 if IC=="jet"
-
     u0 = [ zonal_jet(z; wid=.25, a=2*π) for x in x_center, y in y_center, z in z_center ]
     v0 = [ 0.0 for x in x_center, y in y_center, z in z_center ]
     w0 = [ 0.0 for x in x_center, y in y_center, z in z_center ]
@@ -17,7 +16,7 @@ elseif IC=="sine"
 elseif IC=="iso"
     arg = -2*K.^2/k_peak^2
     Uh0[:,:,:,:] = (U_dim/(2*π)).*(K.^4).*exp.(arg)/U_scale
-    U0 = irfft(Uh0, Nx, (2,3,4))
+    U0 = FFTW.irfft(Uh0, Nx, (2,3,4))
 else
     println("IC not coded")
 end

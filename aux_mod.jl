@@ -46,7 +46,7 @@ end
 
 
 function vort_z(uh::Array)
-    return irfft(im*(Kx[1,:,:].*uh[2,:,:] - Ky[1,:,:].*uh[1,:,:]), Nx)
+    return FFTW.irfft(im*(Kx[1,:,:].*uh[2,:,:] - Ky[1,:,:].*uh[1,:,:]), Nx)
 end
 
 function ∇(uh::Array)
