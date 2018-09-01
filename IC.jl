@@ -41,3 +41,4 @@ Uh0 = rplan*U0
 
 Uh0 = rm_div(Uh0)
 println("MAX(∇⋅U) = ", maximum(∇(Uh0)))
+pause()
