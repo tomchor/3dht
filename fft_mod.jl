@@ -48,13 +48,16 @@ function adv(a::Array, b::Array, apad::Array, bpad::Array, a_phys::Array, b_phys
 
     #----
     # Transform to physical space, renormalize, multiply, and transform back
-    A_mul_B!(a_phys, ipadplan, apad)
-    A_mul_B!(b_phys, ipadplan, bpad)
+    #A_mul_B!(a_phys, ipadplan, apad)
+    #A_mul_B!(b_phys, ipadplan, bpad)
+    a_phys = ipadplan*apad
+    b_phys = ipadplan*bpad
     a_phys .*= length(a_phys)/(Nx*Ny*Nz)
     b_phys .*= length(b_phys)/(Nx*Ny*Nz)
 
     phys = a_phys.*b_phys
-    A_mul_B!(apad, padplan, phys)
+    #A_mul_B!(apad, padplan, phys)
+    apad = padplan*phys
     g = AbstractFFTs.fftshift(apad, (2,3))[1:Int(Nx//2)+1, half2-halfy:half2+1+halfy, half2-halfy:half2+1+halfy]
     g = AbstractFFTs.fftshift(g, (2,3))
     #----
