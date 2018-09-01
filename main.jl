@@ -1,3 +1,4 @@
+import Printf
 import PyCall
 @PyCall.pyimport numpy as np
 @PyCall.pyimport xarray as xr
@@ -41,7 +42,7 @@ include("io.jl")
 function run_sim(Uh, NL)
     #-----
     # Print IC
-    plot_3axes(U0[1,:,Int(end//2),:], U0[2,:,Int(end//2),:], U0[3,:,Int(end//2),:], join(["output/uvw_",@sprintf("%06.02f", 0),".png"]), sym=true, vm=.4)
+    plot_3axes(U0[1,:,Int(end//2),:], U0[2,:,Int(end//2),:], U0[3,:,Int(end//2),:], join(["output/uvw_",Printf.@sprintf("%06.02f", 0),".png"]), sym=true, vm=.4)
     #-----
 
     println("Starting loop ...")
@@ -57,9 +58,9 @@ function run_sim(Uh, NL)
         if jt_tot in out_n
             A_mul_B!(U, irplan, Uh[end,:,:,:,:])
             DS["U"][:values]=U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
-            (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",@sprintf("%06.0f", 1e2*out_T[n]),".nc"]))
+            (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",Printf.@sprintf("%06.0f", 1e2*out_T[n]),".nc"]))
 #            write_netcdfs(n)
-            plot_3axes(U[1,:,Int(end//2),:], U[2,:,Int(end//2),:], U[3,:,1,:], join(["output/uvw_",@sprintf("%06.02f", out_T[n]),".png"]), sym=true, vm=.4)
+            plot_3axes(U[1,:,Int(end//2),:], U[2,:,Int(end//2),:], U[3,:,1,:], join(["output/uvw_",Printf.@sprintf("%06.02f", out_T[n]),".png"]), sym=true, vm=.4)
             n=n+1
         end
 

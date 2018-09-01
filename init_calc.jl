@@ -18,7 +18,7 @@ Uh = np.stack([ Uh0 for i in 1:3 ], axis=0)
 NL = np.stack([ NL for i in 1:3 ], axis=0)
 #------
 
-Q = sum(AB3_coeffs.*NL, 1)[1,:,:,:,:]
+Q = sum(AB3_coeffs.*NL, dims=1)[1,:,:,:,:]
 
 #----
 # Shift the positions of previous time steps on last moment
