@@ -55,11 +55,9 @@ function run_sim(Uh, NL)
         Uh, NL = advance_AB3_3D(Uh, NL, dt=dt)
 
         if jt_tot in out_n
-            #A_mul_B!(U, irplan, Uh[end,:,:,:,:])
             U = irplan*Uh[end,:,:,:,:]
             DS["U"][:values]=U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
             (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",Printf.@sprintf("%06.0f", 1e2*out_T[n]),".nc"]))
-#            write_netcdfs(n)
             plot_3axes(U[1,:,Int(end//2),:], U[2,:,Int(end//2),:], U[3,:,1,:], join(["output/uvw_",Printf.@sprintf("%06.02f", out_T[n]),".png"]), sym=true, vm=.4)
             n=n+1
         end
