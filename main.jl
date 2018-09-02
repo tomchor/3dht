@@ -48,15 +48,15 @@ function run_sim(Uh, NL)
     println("Starting loop ...")
     n=1
     # solver loop
-    tic()
-    for (jt, t) in enumerate(3*dt:dt:T_f)
+    @time for (jt, t) in enumerate(3*dt:dt:T_f)
         jt_tot=jt-1
         println("jt_tot ", jt_tot, " time= ", t)
 
         Uh, NL = advance_AB3_3D(Uh, NL, dt=dt)
 
         if jt_tot in out_n
-            A_mul_B!(U, irplan, Uh[end,:,:,:,:])
+            #A_mul_B!(U, irplan, Uh[end,:,:,:,:])
+            U = irplan*Uh[end,:,:,:,:]
             DS["U"][:values]=U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
             (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",Printf.@sprintf("%06.0f", 1e2*out_T[n]),".nc"]))
 #            write_netcdfs(n)
@@ -71,6 +71,5 @@ function run_sim(Uh, NL)
         end
 
     end
-    toc();
     return Uh, NL, DS
 end
