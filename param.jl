@@ -3,14 +3,14 @@ import Distributed
 #------
 # General
 const Ndim = 3
-Nprocs = Distributed.nprocs()
+Nprocs = Distributed.nprocs()-1
 #------
 
 #------
 # Domain setup and and IC
 U_dim=.005 # m/s
 L_dim=0.05 # m
-N=2^4
+N=2^5
 ν_dim=1.5e-5 # m^2/s
 Prod_dim = .1e-3 # m^2/s^3
 #------
@@ -29,7 +29,7 @@ k_peak = (2*π)/(0.8*L) # ~ From Pope
 
 #------
 # Time setup
-dt = .01
+dt = .001
 dt_out = 0.1
 T_f = 50.
 out_T = 0:dt_out:T_f
