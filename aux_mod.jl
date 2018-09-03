@@ -38,9 +38,9 @@ end
 
 
 function rm_div(uh::Array)
-    NL_aux[1,:,:,:] = + (1 .- kxkx_k2).*uh[1,:,:,:] .- kxky_k2.*uh[2,:,:,:] .- kxkz_k2.*uh[3,:,:,:]
-    NL_aux[2,:,:,:] = - kxky_k2.*uh[1,:,:,:] .+ (1 .- kyky_k2).*uh[2,:,:,:] .- kykz_k2.*uh[3,:,:,:]
-    NL_aux[3,:,:,:] = - kxkz_k2.*uh[1,:,:,:] .- kykz_k2.*uh[2,:,:,:] + (1 .- kzkz_k2).*uh[3,:,:,:]
+    NL_aux[1,:,:,:] .= + (1 .- kxkx_k2).*uh[1,:,:,:] .- kxky_k2.*uh[2,:,:,:] .- kxkz_k2.*uh[3,:,:,:]
+    NL_aux[2,:,:,:] .= - kxky_k2.*uh[1,:,:,:] .+ (1 .- kyky_k2).*uh[2,:,:,:] .- kykz_k2.*uh[3,:,:,:]
+    NL_aux[3,:,:,:] .= - kxkz_k2.*uh[1,:,:,:] .- kykz_k2.*uh[2,:,:,:] + (1 .- kzkz_k2).*uh[3,:,:,:]
     return NL_aux
 end
 

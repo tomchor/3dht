@@ -56,7 +56,7 @@ function run_sim(Uh, NL)
 
         if jt_tot in out_n
             U = irplan*Uh[end,:,:,:,:]
-            DS["U"][:values]=U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
+            DS["U"][:values] .= U[1,:,:,:]; DS["V"][:values]=U[2,:,:,:]; DS["W"][:values]=U[3,:,:,:];
             (DS*U_scale)[:transpose]()[:to_netcdf](join(["output/uvw_",Printf.@sprintf("%06.0f", 1e2*out_T[n]),".nc"]))
             plot_3axes(U[1,:,Int(end//2),:], U[2,:,Int(end//2),:], U[3,:,1,:], join(["output/uvw_",Printf.@sprintf("%06.02f", out_T[n]),".png"]), sym=true, vm=.4)
             n=n+1
@@ -67,7 +67,7 @@ function run_sim(Uh, NL)
             println("Blew up! Stopped execution at t = ",t)
             break
         end
-
+        #GC.gc(); GC.gc(); GC.gc()
     end
     return Uh, NL, DS
 end

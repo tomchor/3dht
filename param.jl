@@ -32,6 +32,7 @@ k_peak = (2*π)/(0.8*L) # ~ From Pope
 dt = .001
 dt_out = 0.1
 T_f = 10.
+T_f = 0.5
 out_T = 0:dt_out:T_f
 Nt = trunc(Int,T_f/dt)
 out_n = trunc.(Int,out_T./dt)
