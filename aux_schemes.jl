@@ -22,8 +22,8 @@ function advance_AB3_3D(Uh::Array, NL::Array; dt::Float64=1)
 
     #----
     # Shift the positions of previous time steps on last moment
-    Uh = np.roll(Uh, -1, axis=0)
-    NL = np.roll(NL, -1, axis=0)
+    Uh = circshift(Uh, -1)
+    NL = circshift(NL, -1)
     NL[end,:,:,:,:] .= 0.0 # Not needed, but just to avoid mistakes
     #----
 
